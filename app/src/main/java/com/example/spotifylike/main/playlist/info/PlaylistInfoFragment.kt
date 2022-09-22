@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.spotifylike.R
 import com.example.spotifylike.common.model.APITracksRes
@@ -40,7 +41,9 @@ class PlaylistInfoFragment(val playlist: Playlist) : Fragment() {
         }
 
         binding.tTitle.text = playlist.name
+        binding.tTitle.isSelected = true
         binding.tDescription.text = playlist.description?.replace("<[^>]*>".toRegex(), "")
+        binding.tDescription.isSelected = true
         binding.tFrom.text = getString(R.string.fragment_info_playlist_playlist_by, playlist.owner?.display_name)
         //binding.tNbFollowers.text = "${playlist}" // TODO Trouver le nb de follower
 
@@ -52,15 +55,26 @@ class PlaylistInfoFragment(val playlist: Playlist) : Fragment() {
         binding.rvTracks.layoutManager = linearLayoutManager
 
 
+        // Desactive l'animation pour les playlists cachées
+        binding.rvTracks.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    tracksAdapter.hasScrolled = true
+                }
+            }
+        })
+
         getPlaylistTracks()
 
     }
 
     private fun getPlaylistTracks() {
+        binding.pbLoadingTracks.isIndeterminate = true
         MainActivity.mainService.playlistService.getPlaylistTracks(playlist.id!!, object :
             ObjectCallback<APITracksRes> {
             override fun callbackObject(res: APITracksRes) {
-                //TODO Close loading Animation
+                binding.pbLoadingTracks.isIndeterminate = false
 
                 val tracks = ArrayList<Track>(res.items.size)
                 res.items.forEach { tracks.add(it.track!!) }

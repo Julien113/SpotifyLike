@@ -31,6 +31,11 @@ class MainActivity : AppCompatActivity() {
     private fun setFragmentPlaylist() {
         val fragment = PlaylistsListFragment()
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.fragment_slide_in_bottom,
+                R.anim.fragment_fade_out,
+                R.anim.fragment_fade_in,
+                R.anim.fragment_slide_out_bottom)
             .add(R.id.container, fragment)
             .commit()
     }
@@ -38,6 +43,11 @@ class MainActivity : AppCompatActivity() {
     fun showBottomFragment(track: Track) {
         val fragment = BottomPlayerFragment(this, track)
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.fragment_slide_in_bottom,
+                R.anim.fragment_fade_out,
+                R.anim.fragment_fade_in,
+                R.anim.fragment_slide_out_bottom)
             .replace(R.id.bottomContainer, fragment)
             .commit()
     }

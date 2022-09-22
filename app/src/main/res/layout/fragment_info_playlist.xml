@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <View
         android:id="@+id/backgroundInfo"
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:background="@drawable/playlist_info_gradient"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
         android:id="@+id/ivPlaylistImage"
@@ -21,51 +20,53 @@
         android:paddingTop="8dp"
         android:paddingEnd="12dp"
         android:paddingBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/separator"
+        app:layout_constraintBottom_toTopOf="@id/pbLoadingTracks"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tTitle"
-        android:layout_width="wrap_content"
+        style="@style/TextViewMarquee"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Sleep"
+        android:singleLine="true"
         android:paddingTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:text="Sleep"
         android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@id/ivPlaylistImage"
-        app:layout_constraintTop_toTopOf="@id/ivPlaylistImage"
-        android:maxLines="1"
-        android:ellipsize="end"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivPlaylistImage" />
 
     <TextView
         android:id="@+id/tFrom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="Playlist by Spotify"
         android:textColor="@color/grey"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@id/tTitle"
-        app:layout_constraintTop_toBottomOf="@id/tTitle"
-        android:maxLines="1"
-        android:ellipsize="end" />
+        app:layout_constraintTop_toBottomOf="@id/tTitle" />
 
 
     <TextView
         android:id="@+id/tDescription"
-        android:layout_width="wrap_content"
+        style="@style/TextViewMarquee"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:maxLines="2"
         android:text="Fall into a deep relaxing sleep with these \n soooothing sounds"
         android:textColor="@color/white"
         android:textSize="12sp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toTopOf="@id/tNbFollowers"
         app:layout_constraintStart_toStartOf="@id/tTitle"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tFrom"
-        app:layout_constraintVertical_bias="1"
-        android:maxLines="2"
-        android:ellipsize="end"
-        />
-
+        app:layout_constraintVertical_bias="1" />
 
     <TextView
         android:id="@+id/tNbFollowers"
@@ -78,19 +79,23 @@
         app:layout_constraintBottom_toBottomOf="@id/ivPlaylistImage"
         app:layout_constraintStart_toStartOf="@id/tTitle" />
 
-    <View
-        android:id="@+id/separator"
+    <ProgressBar
+        android:id="@+id/pbLoadingTracks"
+        style="@style/MyHorizontalProgressBar"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/playlist_info_title_bar"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-8dp"
+        android:indeterminate="true"
+        android:max="100"
+        android:progress="100"
         app:layout_constraintTop_toBottomOf="@id/backgroundInfo" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTracks"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:id="@+id/rvTracks"
-        app:layout_constraintTop_toBottomOf="@id/separator"
+        android:layout_marginTop="-8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@id/pbLoadingTracks" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

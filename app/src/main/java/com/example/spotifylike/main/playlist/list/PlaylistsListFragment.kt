@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.spotifylike.common.model.APIPlaylist
 import com.example.spotifylike.common.model.Playlist
 import com.example.spotifylike.common.utils.ObjectCallback
@@ -37,17 +38,29 @@ class PlaylistsListFragment : Fragment() {
         val gridLayoutManager = GridLayoutManager(context, 2)
         binding.rvPlaylist.layoutManager = gridLayoutManager
 
+        // Desactive l'animation pour les playlists cachées
+        binding.rvPlaylist.addOnScrollListener(object :RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    playlistsListViewAdapter.hasScrolled = true
+                }
+            }
+        })
+
         searchForFeaturedPlaylists()
     }
 
     private fun searchForFeaturedPlaylists() {
-        //TODO Loading Animation
+        // loading animation
+        binding.pbLoadingPlaylists.visibility = View.VISIBLE
 
         MainActivity.mainService.playlistService.getListOfFeaturedPlaylists(object :
             ObjectCallback<APIPlaylist> {
             @SuppressLint("NotifyDataSetChanged")
             override fun callbackObject(res: APIPlaylist) {
-                //TODO Close loading Animation
+                // cancel loading animation
+                binding.pbLoadingPlaylists.visibility = View.GONE
 
                 // Update Adapter
                 featuredPlaylists.clear()

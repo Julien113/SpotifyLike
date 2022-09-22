@@ -7,5 +7,31 @@
 
     <style name="AppBackGround">
         <item name="android:background">@color/app_background</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="MyHorizontalProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:indeterminateTintMode">src_atop</item>
+        <item name="android:indeterminateTint">@color/playlist_info_title_bar</item>
+        <item name="android:progressTintMode">src_atop</item>
+        <item name="android:progressTint">@color/playlist_info_title_bar</item>
+    </style>
+
+
+    <style name="MyProgressBar" parent="@style/Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminateTintMode">src_atop</item>
+        <item name="android:indeterminateTint">@color/playlist_info_title_bar</item>
+        <item name="android:progressTintMode">src_atop</item>
+        <item name="android:progressTint">@color/playlist_info_title_bar</item>
+    </style>
+
+    <style name="TextViewMarquee">
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:freezesText">true</item>
+        <item name="android:focusableInTouchMode">true</item>
     </style>
 </resources>

@@ -3,13 +3,22 @@ package com.example.spotifylike.common.services
 import android.media.MediaPlayer
 import android.util.Log
 import com.example.spotifylike.common.model.Track
+import com.example.spotifylike.common.utils.ObjectCallback
 import com.example.spotifylike.main.MainActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.IOException
+import java.util.*
 
 class PlayerService(private val mainService: MainService, private val mainActivity: MainActivity) {
     private var currentTrack: Track? = null
     private var isPlaying = false
     private var isPaused = false
+
+    var onCompleteCallback: ObjectCallback<Boolean>? = null
+    var trackProgressionCallback: ObjectCallback<Pair<Int, Int>>? = null
 
     private var mediaPlayer = MediaPlayer()
 
@@ -21,7 +30,7 @@ class PlayerService(private val mainService: MainService, private val mainActivi
             try {
                 mediaPlayer.setDataSource(currentTrack!!.preview_url)
                 mediaPlayer.prepare()
-                mediaPlayer.start()
+                startMediaPlayer()
                 isPlaying = true
             } catch (e: IOException) {
                 Log.e("PlayerService", "playTrack: prepare failed with ${currentTrack!!.preview_url}")
@@ -47,18 +56,42 @@ class PlayerService(private val mainService: MainService, private val mainActivi
         mediaPlayer.reset()
         mediaPlayer.setDataSource(currentTrack!!.preview_url)
         mediaPlayer.prepare()
+        startMediaPlayer()
+    }
+
+    fun startMediaPlayer() {
         mediaPlayer.start()
+        mediaPlayer.setOnCompletionListener {
+            isPlaying = false
+            isPaused = true
+            if (onCompleteCallback !== null) {
+                onCompleteCallback!!.callbackObject(true)
+            }
+        }
+        GlobalScope.launch(Dispatchers.Main) {
+            updateProgress()
+        }
+    }
+
+    suspend fun updateProgress() {
+        if (onCompleteCallback !== null) {
+            trackProgressionCallback!!.callbackObject(Pair(mediaPlayer.currentPosition, mediaPlayer.duration))
+        }
+        if (isPlaying && !isPaused) {
+            delay(8)
+            updateProgress()
+        }
     }
 
     fun restartTrack() {
         mediaPlayer.seekTo(0)
-        mediaPlayer.start()
+        startMediaPlayer()
     }
 
     fun pauseResumeTrack(): Boolean {
         if (isPlaying) {
             if (isPaused) {
-                mediaPlayer.start()
+                startMediaPlayer()
             } else {
                 mediaPlayer.pause()
             }

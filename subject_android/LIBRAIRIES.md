@@ -1,5 +1,10 @@
 Librairies supplémentaires:
 
+
+Constraintlayout:androidx.constraintlayout:constraintlayout:2.1.4
+androidx.constraintlayout:constraintlayout-compose:1.0.1
+Pour mettre à jour la librairie, pour dispositionner les layouts de manière responsive.
+
 GSON: com.google.code.gson:gson:2.9.1
 Pour de-serialiser des objets json.
 
