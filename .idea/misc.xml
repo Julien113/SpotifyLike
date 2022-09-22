@@ -3,10 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/AppStud Test Technique/subject_android/app/src/main/res/layout/activity_main.xml" value="0.553125" />
-        <entry key="..\:/AppStud Test Technique/subject_android/app/src/main/res/layout/adapter_playlist_view.xml" value="0.553125" />
-        <entry key="..\:/AppStud Test Technique/subject_android/app/src/main/res/layout/fragment_playlist.xml" value="0.5074074074074074" />
-        <entry key="..\:/AppStud Test Technique/subject_android/app/src/main/res/layout/fragment_preview.xml" value="0.553125" />
+        <entry key="..\:/AppStud Test Technique/subject_android/app/src/main/res/drawable/playlist_info_gradient.xml" value="0.297" />
+        <entry key="..\:/AppStud Test Technique/subject_android/app/src/main/res/layout/activity_main.xml" value="0.5541666666666667" />
+        <entry key="..\:/AppStud Test Technique/subject_android/app/src/main/res/layout/adapter_playlist_tracks.xml" value="0.5" />
+        <entry key="..\:/AppStud Test Technique/subject_android/app/src/main/res/layout/fragment_info_playlist.xml" value="0.5541666666666667" />
+        <entry key="..\:/AppStud Test Technique/subject_android/app/src/main/res/layout/fragment_playlist.xml" value="0.5541666666666667" />
+        <entry key="..\:/AppStud Test Technique/subject_android/app/src/main/res/layout/fragment_playlists_list.xml" value="0.5541666666666667" />
       </map>
     </option>
   </component>

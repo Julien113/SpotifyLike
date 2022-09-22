@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/AppBackGround"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <View
+        android:id="@+id/backgroundInfo"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:background="@drawable/playlist_info_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivPlaylistImage"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/separator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sleep"
+        android:paddingTop="4dp"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@id/ivPlaylistImage"
+        app:layout_constraintTop_toTopOf="@id/ivPlaylistImage"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:id="@+id/tFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Playlist by Spotify"
+        android:textColor="@color/grey"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@id/tTitle"
+        app:layout_constraintTop_toBottomOf="@id/tTitle"
+        android:maxLines="1"
+        android:ellipsize="end" />
+
+
+    <TextView
+        android:id="@+id/tDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fall into a deep relaxing sleep with these \n soooothing sounds"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/tNbFollowers"
+        app:layout_constraintStart_toStartOf="@id/tTitle"
+        app:layout_constraintTop_toBottomOf="@id/tFrom"
+        app:layout_constraintVertical_bias="1"
+        android:maxLines="2"
+        android:ellipsize="end"
+        />
+
+
+    <TextView
+        android:id="@+id/tNbFollowers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:text="3.2M followers"
+        android:textColor="@color/grey"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivPlaylistImage"
+        app:layout_constraintStart_toStartOf="@id/tTitle" />
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/playlist_info_title_bar"
+        app:layout_constraintTop_toBottomOf="@id/backgroundInfo" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/rvTracks"
+        app:layout_constraintTop_toBottomOf="@id/separator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

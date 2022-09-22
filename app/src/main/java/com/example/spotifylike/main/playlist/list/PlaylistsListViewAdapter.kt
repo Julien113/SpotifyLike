@@ -1,15 +1,18 @@
-package com.example.spotifylike.main.previews
+package com.example.spotifylike.main.playlist.list
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.spotifylike.R
 import com.example.spotifylike.common.model.Playlist
 import com.example.spotifylike.databinding.AdapterPlaylistViewBinding
+import com.example.spotifylike.main.playlist.info.PlaylistInfoFragment
 
-class PlaylistViewAdapter(private val playlistData: List<Playlist>) :
-    RecyclerView.Adapter<PlaylistViewAdapter.ViewHolder>() {
+class PlaylistsListViewAdapter(private val playlistData: List<Playlist>, private val fragment: Fragment) :
+    RecyclerView.Adapter<PlaylistsListViewAdapter.ViewHolder>() {
     private var _binding: AdapterPlaylistViewBinding? = null
 
 
@@ -32,6 +35,13 @@ class PlaylistViewAdapter(private val playlistData: List<Playlist>) :
         if (playlist.images !== null && playlist.images.isNotEmpty()) {
             Glide.with(viewHolder.itemView).load(playlist.images[0].url)
                 .into(viewHolder.binding.ibPlaylist)
+        }
+
+        viewHolder.itemView.setOnClickListener {
+            fragment.parentFragmentManager.beginTransaction()
+                .addToBackStack("Informations")
+                .add(R.id.container, PlaylistInfoFragment(playlist))
+                .commit()
         }
     }
 

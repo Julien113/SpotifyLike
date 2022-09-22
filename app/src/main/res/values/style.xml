@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppBackGround">
-        <item name="android:background">@color/app_background</item>
+    <style name="AppPaddedBackGround" parent="AppBackGround">
         <item name="android:paddingHorizontal">8dp</item>
-        <item name="android:paddingVertical">8dp</item>
     </style>
 
+    <style name="AppBackGround">
+        <item name="android:background">@color/app_background</item>
+    </style>
 </resources>

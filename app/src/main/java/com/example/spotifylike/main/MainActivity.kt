@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.spotifylike.R
 import com.example.spotifylike.common.services.MainService
 import com.example.spotifylike.databinding.ActivityMainBinding
-import com.example.spotifylike.main.previews.PlaylistFragment
+import com.example.spotifylike.main.playlist.list.PlaylistsListFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setFragmentPlaylist() {
-        val fragment = PlaylistFragment()
+        val fragment = PlaylistsListFragment()
         supportFragmentManager.beginTransaction()
             .add(R.id.container, fragment)
             .commit()
