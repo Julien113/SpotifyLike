@@ -1,5 +1,8 @@
 package com.example.spotifylike.main.playlist.player
 
+import android.content.Context
+import android.graphics.Matrix
+import android.hardware.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,16 +13,20 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.spotifylike.R
 import com.example.spotifylike.common.model.Track
+import com.example.spotifylike.common.utils.MatrixAnimation
 import com.example.spotifylike.common.utils.ObjectCallback
 import com.example.spotifylike.common.utils.Utils
 import com.example.spotifylike.databinding.FragmentPlayerScreenBinding
 import com.example.spotifylike.main.MainActivity
+import kotlin.math.abs
 
 
-class PlayerScreenFragment(private val track: Track) : Fragment(), View.OnClickListener {
+class PlayerScreenFragment(private val track: Track) : Fragment(), View.OnClickListener,
+    SensorEventListener2 {
     var _binding: FragmentPlayerScreenBinding? = null
     val binding get() = _binding!!
 
+    var touchingTrackImage = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +41,7 @@ class PlayerScreenFragment(private val track: Track) : Fragment(), View.OnClickL
         binding.ibPlay.setOnClickListener(this)
         binding.ibNext.setOnClickListener(this)
         binding.ibPrevious.setOnClickListener(this)
+        binding.ivTrackImage.setOnClickListener(this)
 
         binding.tTitle.text = track.name
         binding.tArtist.text = Utils.artistsNames(track.artists!!)
@@ -53,7 +61,8 @@ class PlayerScreenFragment(private val track: Track) : Fragment(), View.OnClickL
         // Ajoute un callback pour recevoir la progression de la musique
         MainActivity.mainService.playerService.trackProgressionCallback = callBackUpdateProgress
 
-        updateProgressFromService()
+        updateProgressFromService()        
+        initMotionSensor()
     }
 
     private val progressSeekBarChangeListener: SeekBar.OnSeekBarChangeListener =
@@ -106,6 +115,9 @@ class PlayerScreenFragment(private val track: Track) : Fragment(), View.OnClickL
             R.id.ibNext -> {
                 clickPreviousNext(false)
             }
+            R.id.ivTrackImage -> {
+                touchingTrackImage = !touchingTrackImage
+            }
         }
     }
 
@@ -145,5 +157,61 @@ class PlayerScreenFragment(private val track: Track) : Fragment(), View.OnClickL
         } else {
             binding.ibPlay.setImageResource(R.drawable.ic_baseline_pause_circle_outline_24)
         }
+    }
+
+
+
+
+
+    // Tentative d'utilisation du motion sensor. Cliquez sur l'image du track pour activer
+    var sensorManager: SensorManager? = null
+    private fun initMotionSensor() {
+        sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val sensor: Sensor? = sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        sensorManager!!.registerListener(this, sensor!!, SensorManager.SENSOR_DELAY_GAME);
+    }
+
+    override fun onSensorChanged(event: SensorEvent) {
+        if (!touchingTrackImage)
+            return
+        val alpha: Float = 0.65f
+        val gravity = arrayOf(0f, 0f, 0f)
+        val linearAcceleration = arrayOf(0f, 0f, 0f)
+
+        // Isolate the force of gravity with the low-pass filter.
+        gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0]
+        gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1]
+        gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2]
+
+        // Remove the gravity contribution with the high-pass filter.
+        linearAcceleration[0] = event.values[0] - gravity[0]
+        linearAcceleration[1] = event.values[1] - gravity[1]
+        linearAcceleration[2] = event.values[2] - gravity[2]
+
+        val matrixScale = Matrix()
+        val matrixTranslate = Matrix()
+        val matrix = Matrix()
+
+        val scale = 1f + abs(gravity[2] / 100)
+        matrixScale.setScale(
+            scale,
+            scale,
+            binding.ivTrackImage.measuredWidth / 2.toFloat(),
+            binding.ivTrackImage.measuredHeight / 2.toFloat()
+        )
+        matrixTranslate.setTranslate(gravity[0] * 8, gravity[1] * 8)
+        matrix.postConcat(matrixScale)
+        matrix.postConcat(matrixTranslate)
+
+        val matrixAnimation = MatrixAnimation(matrix)
+        matrixAnimation.duration = 0
+        matrixAnimation.fillAfter = true
+        binding.ivTrackImage.startAnimation(matrixAnimation)
+    }
+
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
+    }
+
+    override fun onFlushCompleted(p0: Sensor?) {
     }
 }
