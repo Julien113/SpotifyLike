@@ -55,11 +55,11 @@ class MainService() {
                     val content = response.body()
                     callback.callbackObject(content as T)
                 } else {
-                    Log.e("MainService", "httpCallForJson Error: ${response.message()}")
+                    Log.e("MainService", "httpCallForJsonWithParams Error: ${response.message()}")
                 }
 
             } catch (e: Exception) {
-                Log.e("MainService", "httpCallForJson Error Occurred: ${e.message}")
+                Log.e("MainService", "httpCallForJsonWithParams Error Occurred: ${e.message}")
             }
         }
     }

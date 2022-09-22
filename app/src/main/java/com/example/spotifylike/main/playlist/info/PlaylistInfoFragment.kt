@@ -1,13 +1,13 @@
 package com.example.spotifylike.main.playlist.info
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.spotifylike.R
 import com.example.spotifylike.common.model.APITracksRes
 import com.example.spotifylike.common.model.Playlist
 import com.example.spotifylike.common.model.Track
@@ -41,7 +41,7 @@ class PlaylistInfoFragment(val playlist: Playlist) : Fragment() {
 
         binding.tTitle.text = playlist.name
         binding.tDescription.text = playlist.description?.replace("<[^>]*>".toRegex(), "")
-        binding.tFrom.text = "Playlist by ${playlist.owner?.display_name}"
+        binding.tFrom.text = getString(R.string.fragment_info_playlist_playlist_by, playlist.owner?.display_name)
         //binding.tNbFollowers.text = "${playlist}" // TODO Trouver le nb de follower
 
 
@@ -51,33 +51,20 @@ class PlaylistInfoFragment(val playlist: Playlist) : Fragment() {
         val linearLayoutManager = LinearLayoutManager(context)
         binding.rvTracks.layoutManager = linearLayoutManager
 
-        //getPlaylistInformations() //TODO A voir si c'est vraiment utile
+
         getPlaylistTracks()
 
     }
 
-    fun getPlaylistInformations() {
-        MainActivity.mainService.playlistService.getPlaylistInformations(playlist.id!!, object :
-            ObjectCallback<Playlist> {
-            override fun callbackObject(res: Playlist) {
-                //TODO Close loading Animation
-                Log.e("TAG", "moui??: $playlist", )
-
-                // Update Adapter
-                return
-            }})
-    }
-
-    fun getPlaylistTracks() {
+    private fun getPlaylistTracks() {
         MainActivity.mainService.playlistService.getPlaylistTracks(playlist.id!!, object :
             ObjectCallback<APITracksRes> {
             override fun callbackObject(res: APITracksRes) {
                 //TODO Close loading Animation
-                Log.e("TAG", "eh la???: $playlist", )
+
                 val tracks = ArrayList<Track>(res.items.size)
                 res.items.forEach { tracks.add(it.track!!) }
                 playlistTracks.addAll(tracks)
-
 
                 // Update Adapter
                 tracksAdapter.notifyItemRangeInserted(0, tracks.size)
