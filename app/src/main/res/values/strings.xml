@@ -3,4 +3,5 @@
 
     <string name="fragment_info_playlist_playlist_by">Playlist by %1$s</string>
 
+    <string name="fragment_bottom_player_unknown_artist">Unknown Artist</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.spotifylike.main.playlist.info
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.spotifylike.R
 import com.example.spotifylike.common.model.Track
 import com.example.spotifylike.databinding.AdapterPlaylistTracksBinding
+import com.example.spotifylike.main.MainActivity
 
 class PlaylistTrackAdapter(private val tracks: List<Track>, private val fragment: Fragment) :
     RecyclerView.Adapter<PlaylistTrackAdapter.ViewHolder>() {
@@ -39,6 +41,9 @@ class PlaylistTrackAdapter(private val tracks: List<Track>, private val fragment
         } else {
             viewHolder.binding.tTitle.setTextColor(fragment.resources.getColor(R.color.white, null))
             viewHolder.binding.tArtist.setTextColor(fragment.resources.getColor(R.color.light_grey, null))
+            viewHolder.itemView.setOnClickListener {
+                MainActivity.mainService.playerService.playTrack(track)
+            }
         }
     }
 

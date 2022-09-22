@@ -2,6 +2,7 @@ package com.example.spotifylike.common.services
 
 import android.util.Log
 import com.example.spotifylike.common.utils.ObjectCallback
+import com.example.spotifylike.main.MainActivity
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -11,8 +12,9 @@ import kotlin.reflect.KSuspendFunction0
 import kotlin.reflect.KSuspendFunction1
 
 
-class MainService() {
+class MainService(private val mainActivity: MainActivity) {
     val playlistService: PlaylistService = PlaylistService(this)
+    val playerService: PlayerService = PlayerService(this, mainActivity)
 
 
     /** httpCallForObject: Generalise l'appel asynchrone aux endpoints de l'api

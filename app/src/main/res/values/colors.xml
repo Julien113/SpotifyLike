@@ -10,10 +10,12 @@
     <color name="grey">#5e615e</color>
     <color name="light_grey">#8c8c8c</color>
     <color name="dark_grey">#232323</color>
+    <color name="invisible">#00000000</color>
 
 
     <color name="app_background">#FF000000</color>
 
     <color name="playlist_info_gradient_green">#003100</color>
-    <color name="playlist_info_title_bar">#004400</color>
+    <color name="playlist_info_title_bar">#008600</color>
+    <color name="player_separator_bar">#008600</color>
 </resources>

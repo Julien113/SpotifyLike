@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@color/app_background">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/player_separator_bar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Enter the Unseen"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ibPlay"
+        app:layout_constraintBottom_toTopOf="@id/tArtist"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingHorizontal="12dp" />
+
+    <TextView
+        android:id="@+id/tArtist"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Steven Goldmund"
+        android:textColor="@color/light_grey"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ibPlay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tTitle"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingHorizontal="12dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ibPlay"
+        android:background="@color/invisible"
+        android:src="@drawable/ic_baseline_pause_circle_outline_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingEnd="16dp"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
