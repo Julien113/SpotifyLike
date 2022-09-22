@@ -3,7 +3,6 @@ package com.example.spotifylike.main
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.spotifylike.R
-import com.example.spotifylike.common.model.Playlist
 import com.example.spotifylike.common.model.Track
 import com.example.spotifylike.common.services.MainService
 import com.example.spotifylike.databinding.ActivityMainBinding
@@ -12,6 +11,8 @@ import com.example.spotifylike.main.playlist.player.BottomPlayerFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
+    private var isBottomFragmentOpen = false
 
     companion object {
         lateinit var mainService: MainService
@@ -42,13 +43,16 @@ class MainActivity : AppCompatActivity() {
 
     fun showBottomFragment(track: Track) {
         val fragment = BottomPlayerFragment(this, track)
-        supportFragmentManager.beginTransaction()
-            .setCustomAnimations(
+        val transaction =supportFragmentManager.beginTransaction()
+        if (!isBottomFragmentOpen) {
+            transaction.setCustomAnimations(
                 R.anim.fragment_slide_in_bottom,
                 R.anim.fragment_fade_out,
                 R.anim.fragment_fade_in,
                 R.anim.fragment_slide_out_bottom)
-            .replace(R.id.bottomContainer, fragment)
+        }
+        transaction.replace(R.id.bottomContainer, fragment)
             .commit()
+        isBottomFragmentOpen = true
     }
 }

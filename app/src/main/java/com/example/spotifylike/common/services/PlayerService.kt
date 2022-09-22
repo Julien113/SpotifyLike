@@ -5,33 +5,31 @@ import android.util.Log
 import com.example.spotifylike.common.model.Track
 import com.example.spotifylike.common.utils.ObjectCallback
 import com.example.spotifylike.main.MainActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.io.IOException
-import java.util.*
 
 class PlayerService(private val mainService: MainService, private val mainActivity: MainActivity) {
-    private var currentTrack: Track? = null
-    private var isPlaying = false
-    private var isPaused = false
+    var currentTrack: Track? = null
+    var isPlaying = false
+    var isPaused = false
+    var currentPosition = 0
+    var currentTrackDuration = 0
 
     var onCompleteCallback: ObjectCallback<Boolean>? = null
     var trackProgressionCallback: ObjectCallback<Pair<Int, Int>>? = null
+    var trackBottomProgressionCallback: ObjectCallback<Pair<Int, Int>>? = null
 
     private var mediaPlayer = MediaPlayer()
-
 
     fun playTrack(track: Track) {
         if (!isPlaying) {
             // Joue le track
             currentTrack = track
             try {
+                mediaPlayer.reset()
                 mediaPlayer.setDataSource(currentTrack!!.preview_url)
                 mediaPlayer.prepare()
                 startMediaPlayer()
-                isPlaying = true
             } catch (e: IOException) {
                 Log.e("PlayerService", "playTrack: prepare failed with ${currentTrack!!.preview_url}")
                 isPlaying = false
@@ -45,13 +43,12 @@ class PlayerService(private val mainService: MainService, private val mainActivi
                 restartTrack()
             }
         }
-        isPaused = false
 
         // Affiche le bottomFragment
         mainActivity.showBottomFragment(track)
     }
 
-    fun changeTrack(newTrack: Track) {
+    private fun changeTrack(newTrack: Track) {
         currentTrack = newTrack
         mediaPlayer.reset()
         mediaPlayer.setDataSource(currentTrack!!.preview_url)
@@ -59,8 +56,11 @@ class PlayerService(private val mainService: MainService, private val mainActivi
         startMediaPlayer()
     }
 
-    fun startMediaPlayer() {
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun startMediaPlayer() {
         mediaPlayer.start()
+        isPlaying = true
+        isPaused = false
         mediaPlayer.setOnCompletionListener {
             isPlaying = false
             isPaused = true
@@ -73,10 +73,11 @@ class PlayerService(private val mainService: MainService, private val mainActivi
         }
     }
 
-    suspend fun updateProgress() {
-        if (onCompleteCallback !== null) {
-            trackProgressionCallback!!.callbackObject(Pair(mediaPlayer.currentPosition, mediaPlayer.duration))
-        }
+    private suspend fun updateProgress() {
+        currentPosition = mediaPlayer.currentPosition
+        currentTrackDuration = mediaPlayer.duration
+        trackProgressionCallback?.callbackObject(Pair(mediaPlayer.currentPosition, mediaPlayer.duration))
+        trackBottomProgressionCallback?.callbackObject(Pair(mediaPlayer.currentPosition, mediaPlayer.duration))
         if (isPlaying && !isPaused) {
             delay(8)
             updateProgress()
@@ -88,14 +89,22 @@ class PlayerService(private val mainService: MainService, private val mainActivi
         startMediaPlayer()
     }
 
+    fun goToTime(time: Int) {
+        mediaPlayer.seekTo(time)
+    }
+
     fun pauseResumeTrack(): Boolean {
         if (isPlaying) {
             if (isPaused) {
                 startMediaPlayer()
             } else {
                 mediaPlayer.pause()
+                isPaused = true
             }
-            isPaused = !isPaused
+        } else {
+            if (currentTrack !== null) {
+                restartTrack()
+            }
         }
         return isPaused
     }

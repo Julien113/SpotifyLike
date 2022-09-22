@@ -34,4 +34,13 @@
         <item name="android:freezesText">true</item>
         <item name="android:focusableInTouchMode">true</item>
     </style>
+
+    <style name="PlayerScreenSeeker" parent="@style/Widget.AppCompat.SeekBar">
+        <item name="android:progressTintMode">src_atop</item>
+        <item name="android:progressTint">@color/white</item>
+        <item name="android:progressBackgroundTint">@color/dark_grey</item>
+        <item name="android:thumbTint">@color/white</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+    </style>
 </resources>

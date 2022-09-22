@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/AppPaddedBackGround"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/ivTrackImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintEnd_toEndOf="@id/guideRightImage"
+        app:layout_constraintStart_toStartOf="@id/guideLeftImage"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLeftImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideRightImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+
+    <TextView
+        android:id="@+id/tTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Blue World"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/guideRightImage"
+        app:layout_constraintStart_toStartOf="@id/guideLeftImage"
+        app:layout_constraintTop_toBottomOf="@id/ivTrackImage" />
+
+    <TextView
+        android:id="@+id/tArtist"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Mac Miller"
+        android:textColor="@color/light_grey"
+        app:layout_constraintEnd_toEndOf="@id/guideRightImage"
+        app:layout_constraintStart_toStartOf="@id/guideLeftImage"
+        app:layout_constraintTop_toBottomOf="@id/tTitle" />
+
+    <SeekBar
+        android:id="@+id/pbTrack"
+        style="@style/PlayerScreenSeeker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-9dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="-9dp"
+        android:max="100"
+        android:progress="70"
+        app:layout_constraintEnd_toEndOf="@id/guideRightImage"
+        app:layout_constraintStart_toStartOf="@id/guideLeftImage"
+        app:layout_constraintTop_toBottomOf="@id/tArtist" />
+
+    <TextView
+        android:id="@+id/tCurrentTimePosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2:15"
+        android:textColor="@color/light_grey"
+        app:layout_constraintStart_toStartOf="@id/guideLeftImage"
+        app:layout_constraintTop_toBottomOf="@id/pbTrack" />
+
+    <TextView
+        android:id="@+id/tTotalDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3:45"
+        android:textColor="@color/light_grey"
+        app:layout_constraintEnd_toEndOf="@id/guideRightImage"
+        app:layout_constraintTop_toBottomOf="@id/pbTrack" />
+
+    <ImageButton
+        android:id="@+id/ibPrevious"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@color/invisible"
+        android:src="@drawable/ic_baseline_skip_previous_24"
+        app:layout_constraintBottom_toBottomOf="@id/ibPlay"
+        app:layout_constraintEnd_toStartOf="@id/ibPlay"
+        app:layout_constraintStart_toStartOf="@id/guideLeftImage"
+        app:layout_constraintTop_toTopOf="@id/ibPlay" />
+
+    <ImageButton
+        android:id="@+id/ibPlay"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/invisible"
+        android:src="@drawable/ic_baseline_play_circle_filled_24"
+        app:layout_constraintEnd_toStartOf="@id/ibNext"
+        app:layout_constraintStart_toEndOf="@id/ibPrevious"
+        app:layout_constraintTop_toBottomOf="@id/tCurrentTimePosition" />
+
+    <ImageButton
+        android:id="@+id/ibNext"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@color/invisible"
+        android:src="@drawable/ic_baseline_skip_next_24"
+        app:layout_constraintBottom_toBottomOf="@id/ibPlay"
+        app:layout_constraintEnd_toEndOf="@id/guideRightImage"
+        app:layout_constraintStart_toEndOf="@id/ibPlay"
+        app:layout_constraintTop_toTopOf="@id/ibPlay" />
+</androidx.constraintlayout.widget.ConstraintLayout>

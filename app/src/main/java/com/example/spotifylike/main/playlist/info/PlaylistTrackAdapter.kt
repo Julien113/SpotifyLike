@@ -1,6 +1,5 @@
 package com.example.spotifylike.main.playlist.info
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spotifylike.R
 import com.example.spotifylike.common.model.Track
+import com.example.spotifylike.common.utils.Utils
 import com.example.spotifylike.databinding.AdapterPlaylistTracksBinding
 import com.example.spotifylike.main.MainActivity
 import java.lang.Integer.max
@@ -39,7 +39,7 @@ class PlaylistTrackAdapter(private val tracks: List<Track>, private val fragment
         val track = tracks[position]
 
         viewHolder.binding.tTitle.text = track.name
-        viewHolder.binding.tArtist.text = track.artists?.get(0)?.name ?: ""
+        viewHolder.binding.tArtist.text = Utils.artistsNames(track.artists!!)
 
         if (track.preview_url.isNullOrEmpty()) {
             viewHolder.binding.tTitle.setTextColor(fragment.resources.getColor(R.color.dark_grey, null))
@@ -66,5 +66,4 @@ class PlaylistTrackAdapter(private val tracks: List<Track>, private val fragment
     }
 
     override fun getItemCount() = tracks.size
-
 }
